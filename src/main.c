@@ -4,6 +4,8 @@
 #include <time.h>
 #include <SDL2/SDL.h>
 
+#define RAND_POINT (float)(rand() % 3000 - 1500) / 100.f
+#define RAND_Z (float)(rand() % 50 - 20)
 
 struct Point* append_point(struct Point* pts, int* npts, struct Point p)
 {
@@ -21,12 +23,13 @@ void render(SDL_Window* window, SDL_Renderer* rend)
     struct Point* points = 0;
     int npoints = 0;
 
-    for (int i = 0; i < 20; ++i)
+    for (int i = 0; i < 1000; ++i)
     {
         points = append_point(points, &npoints, (struct Point){
-            .x = (float)(rand() % 200 - 100) / 100.f,
-            .y = (float)(rand() % 200 - 100) / 100.f,
-            .z = 5.f
+            .x = RAND_POINT,
+            .y = RAND_POINT,
+            .z = RAND_Z,
+            .length = 1.f
         });
     }
 
@@ -46,8 +49,15 @@ void render(SDL_Window* window, SDL_Renderer* rend)
 
         for (int i = 0; i < npoints; ++i)
         {
-            point_render(&points[i], rend);
-            points[i].z -= 0.01f;
+            if (points[i].z <= points[i].length)
+            {
+                points[i].x = RAND_POINT;
+                points[i].y = RAND_POINT;
+                points[i].z = RAND_Z;
+            }
+
+            point_draw_trail(&points[i], rend);
+            points[i].z -= .3f;
         }
 
         SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
