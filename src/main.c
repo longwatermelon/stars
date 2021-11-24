@@ -49,7 +49,7 @@ void render(SDL_Window* window, SDL_Renderer* rend)
 
         for (int i = 0; i < npoints; ++i)
         {
-            if (points[i].z <= points[i].length)
+            if (points[i].z <= 1.f)
             {
                 points[i].x = RAND_POINT;
                 points[i].y = RAND_POINT;
