@@ -1,5 +1,5 @@
 # stars
-Sorry for shitty code I'm rusty
+Simulation of camera moving through particles
 
 Not sure why the gif is lagging so much
 
