@@ -14,7 +14,7 @@ void point_render(struct Point* point, SDL_Renderer* rend)
 
 struct Vec2f point_project(struct Point* orig)
 {
-    if (orig->z == 0.f)
+    if (orig->z <= 0.f)
         return (struct Vec2f){ .x = -1.f, .y = -1.f };
 
     struct Vec2f proj = {
