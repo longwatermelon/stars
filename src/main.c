@@ -63,6 +63,8 @@ void render(SDL_Window* window, SDL_Renderer* rend)
         SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
         SDL_RenderPresent(rend);
     }
+
+    free(points);
 }
 
 
