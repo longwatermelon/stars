@@ -5,7 +5,7 @@
 #include <time.h>
 #include <SDL2/SDL.h>
 
-#define RAND_POINT (float)(rand() % 3000 - 1500) / 100.f
+#define RAND_POINT (float)(rand() % 4000 - 2000) / 100.f
 #define RAND_Z (float)(rand() % 70 - 30)
 
 struct Point* append_point(struct Point* pts, int* npts, struct Point p)
@@ -24,7 +24,7 @@ void render(SDL_Window* window, SDL_Renderer* rend)
     struct Point* points = 0;
     int npoints = 0;
 
-    for (int i = 0; i < 1500; ++i)
+    for (int i = 0; i < 2000; ++i)
     {
         points = append_point(points, &npoints, (struct Point){
             .x = RAND_POINT,
