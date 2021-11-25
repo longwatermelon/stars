@@ -1,4 +1,5 @@
 #include "point.h"
+#include <SDL2/SDL_video.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <time.h>
@@ -47,6 +48,9 @@ void render(SDL_Window* window, SDL_Renderer* rend)
 
         SDL_RenderClear(rend);
 
+        SDL_Point win;
+        SDL_GetWindowSize(window, &win.x, &win.y);
+
         for (int i = 0; i < npoints; ++i)
         {
             if (points[i].z <= 1.f)
@@ -56,7 +60,7 @@ void render(SDL_Window* window, SDL_Renderer* rend)
                 points[i].z = RAND_Z;
             }
 
-            point_draw_trail(&points[i], rend);
+            point_draw_trail(&points[i], rend, win);
             points[i].z -= .3f;
         }
 
@@ -71,7 +75,7 @@ void render(SDL_Window* window, SDL_Renderer* rend)
 int main(int argc, char** argv)
 {
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window* window = SDL_CreateWindow("Stars", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 800, SDL_WINDOW_SHOWN);
+    SDL_Window* window = SDL_CreateWindow("Stars", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 800, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     SDL_Renderer* rend = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     srand(time(0));

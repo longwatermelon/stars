@@ -9,8 +9,8 @@ struct Point
     float length;
 };
 
-SDL_FPoint point_project(struct Point* orig);
-void point_draw_trail(struct Point* point, SDL_Renderer* rend);
+SDL_FPoint point_project(struct Point* orig, SDL_Point winsize);
+void point_draw_trail(struct Point* point, SDL_Renderer* rend, SDL_Point winsize);
 
 #endif
 
