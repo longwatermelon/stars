@@ -51,24 +51,29 @@ void render(SDL_Window* window, SDL_Renderer* rend)
         }
 
         const Uint8* keystates = SDL_GetKeyboardState(0);
+        Vec3f move = { .x = 0.f, .y = 0.f, .z = 0.f };
 
         if (keystates[SDL_SCANCODE_UP])
-            cam.z += .1f;
+            move.z += .1f;
 
         if (keystates[SDL_SCANCODE_DOWN])
-            cam.z -= .1f;
+            move.z -= .1f;
 
         if (keystates[SDL_SCANCODE_RIGHT])
-            cam.x += .1f;
+            move.x += .1f;
 
         if (keystates[SDL_SCANCODE_LEFT])
-            cam.x -= .1f;
+            move.x -= .1f;
 
         if (keystates[SDL_SCANCODE_SPACE])
-            cam.y -= .1f;
+            move.y -= .1f;
 
         if (keystates[SDL_SCANCODE_LSHIFT])
-            cam.y += .1f;
+            move.y += .1f;
+
+        cam.x += move.x;
+        cam.y += move.y;
+        cam.z += move.z;
 
         SDL_RenderClear(rend);
 
@@ -77,14 +82,14 @@ void render(SDL_Window* window, SDL_Renderer* rend)
 
         for (int i = 0; i < npoints; ++i)
         {
-            if (points[i].pos.z - cam.z <= 1.f)
+            if (points[i].pos.z - cam.z <= 0.f)
             {
                 points[i].pos.x = cam.x + RAND_POINT;
                 points[i].pos.y = cam.y + RAND_POINT;
                 points[i].pos.z = cam.z + RAND_Z;
             }
 
-            point_draw_trail(&points[i], rend, win, cam);
+            point_draw_trail(&points[i], rend, win, cam, move);
             points[i].pos.z -= .3f;
         }
 

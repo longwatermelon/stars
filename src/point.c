@@ -20,14 +20,18 @@ SDL_FPoint point_project(struct Point* orig, SDL_Point winsize, Vec3f camera)
 }
 
 
-void point_draw_trail(struct Point* point, SDL_Renderer* rend, SDL_Point winsize, Vec3f camera)
+void point_draw_trail(struct Point* point, SDL_Renderer* rend, SDL_Point winsize, Vec3f camera, Vec3f move)
 {
     SDL_FPoint front = point_project(point, winsize, camera);
 
     if (front.x == -1.f && front.y == -1.f)
         return;
 
-    struct Point p = { .pos = { .x = point->pos.x, .y = point->pos.y, .z = point->pos.z - point->length } };
+    struct Point p = { .pos = {
+        .x = point->pos.x + move.x,
+        .y = point->pos.y + move.y,
+        .z = point->pos.z + point->length + move.z * 2.f } };
+
     SDL_FPoint back = point_project(&p, winsize, camera);
 
     if (back.x == -1.f && back.y == -1.f)
