@@ -6,7 +6,7 @@
 #include <SDL2/SDL.h>
 
 #define RAND_POINT (float)(rand() % 4000 - 2000) / 100.f
-#define RAND_Z (float)(rand() % 70 - 30)
+#define RAND_Z (float)(rand() % 100 - 50)
 
 struct Point* append_point(struct Point* pts, int* npts, struct Point p)
 {
@@ -27,12 +27,16 @@ void render(SDL_Window* window, SDL_Renderer* rend)
     for (int i = 0; i < 2000; ++i)
     {
         points = append_point(points, &npoints, (struct Point){
-            .x = RAND_POINT,
-            .y = RAND_POINT,
-            .z = RAND_Z,
+            .pos = {
+                .x = RAND_POINT,
+                .y = RAND_POINT,
+                .z = RAND_Z
+            },
             .length = 1.f
         });
     }
+
+    Vec3f cam = { .x = 0.f, .y = 0.f, .z = 0.f };
 
     while (running)
     {
@@ -46,6 +50,26 @@ void render(SDL_Window* window, SDL_Renderer* rend)
             }
         }
 
+        const Uint8* keystates = SDL_GetKeyboardState(0);
+
+        if (keystates[SDL_SCANCODE_UP])
+            cam.z += .1f;
+
+        if (keystates[SDL_SCANCODE_DOWN])
+            cam.z -= .1f;
+
+        if (keystates[SDL_SCANCODE_RIGHT])
+            cam.x += .1f;
+
+        if (keystates[SDL_SCANCODE_LEFT])
+            cam.x -= .1f;
+
+        if (keystates[SDL_SCANCODE_SPACE])
+            cam.y -= .1f;
+
+        if (keystates[SDL_SCANCODE_LSHIFT])
+            cam.y += .1f;
+
         SDL_RenderClear(rend);
 
         SDL_Point win;
@@ -53,15 +77,15 @@ void render(SDL_Window* window, SDL_Renderer* rend)
 
         for (int i = 0; i < npoints; ++i)
         {
-            if (points[i].z <= 1.f)
+            if (points[i].pos.z - cam.z <= 1.f)
             {
-                points[i].x = RAND_POINT;
-                points[i].y = RAND_POINT;
-                points[i].z = RAND_Z;
+                points[i].pos.x = cam.x + RAND_POINT;
+                points[i].pos.y = cam.y + RAND_POINT;
+                points[i].pos.z = cam.z + RAND_Z;
             }
 
-            point_draw_trail(&points[i], rend, win);
-            points[i].z -= .3f;
+            point_draw_trail(&points[i], rend, win, cam);
+            points[i].pos.z -= .3f;
         }
 
         SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
