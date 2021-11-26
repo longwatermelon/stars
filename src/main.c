@@ -31,8 +31,7 @@ void render(SDL_Window* window, SDL_Renderer* rend)
                 .x = RAND_POINT,
                 .y = RAND_POINT,
                 .z = RAND_Z
-            },
-            .length = 1.f
+            }
         });
     }
 
@@ -90,7 +89,7 @@ void render(SDL_Window* window, SDL_Renderer* rend)
             }
 
             point_draw_trail(&points[i], rend, win, cam, move);
-            points[i].pos.z -= .3f;
+            points[i].pos.z -= .4f;
         }
 
         SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);

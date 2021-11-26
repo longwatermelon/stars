@@ -30,7 +30,7 @@ void point_draw_trail(struct Point* point, SDL_Renderer* rend, SDL_Point winsize
     struct Point p = { .pos = {
         .x = point->pos.x + move.x,
         .y = point->pos.y + move.y,
-        .z = point->pos.z + point->length + move.z * 2.f } };
+        .z = point->pos.z + .4f + move.z * 2.f } };
 
     SDL_FPoint back = point_project(&p, winsize, camera);
 

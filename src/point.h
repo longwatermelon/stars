@@ -8,10 +8,10 @@ typedef struct
     float x, y, z;
 } Vec3f;
 
+// Literally useless but I don't want to refactor my code
 struct Point
 {
     Vec3f pos;
-    float length;
 };
 
 SDL_FPoint point_project(struct Point* orig, SDL_Point winsize, Vec3f camera);
